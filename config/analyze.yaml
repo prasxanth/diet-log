@@ -1,0 +1,83 @@
+# analysis config
+
+input_folder: "../data/processed"
+output_folder: "../analysis"
+
+logging_settings:
+  console: TRUE
+  log_file: "../logs/analyze_{timestamp}.log"
+  sessioninfo_file: "../logs/analyze_sessioninfo_{timestamp}.log"
+  threshold: "TRACE"
+  layout_fields:
+    - "time"
+    - "level"
+    - "ns"
+    - "ans"
+    - "topenv"
+    - "fn"
+    - "node"
+    - "arch"
+    - "os_name"
+    - "os_release"
+    - "os_version"
+    - "pid"
+    - "user"
+    - "msg"
+
+time_bands:
+  meals:
+    files:
+      input_file: "meals.rds"
+      output_file: "meals-time-bands.rds"
+    breakfast:
+      ucl_offset: "00:45:00"
+      lcl_offset: "00:30:00"
+    lunch:
+      ucl_offset: "00:45:00"
+      lcl_offset: "00:30:00"
+    dinner:
+      ucl_offset: "00:45:00"
+      lcl_offset: "00:30:00"
+    snacks_morning:
+      median:
+        start:
+          - "breakfast"
+          - "time_ucl"
+        stop:
+          - "lunch"
+          - "time_lcl"
+      ucl_offset: "00:30:00"
+      lcl_offset: "00:30:00"
+    snacks_afternoon:
+      median:
+        start:
+          - "lunch"
+          - "time_ucl"
+        stop: "01:00:00"
+      ucl_offset: "00:45:00"
+      lcl_offset: "00:45:00"
+    snacks_evening:
+      median:
+        start: "01:30:00" # 1.5 hours before dinner
+        stop:
+          - "dinner"
+          - "time_lcl"
+      ucl_offset: "00:30:00"
+      lcl_offset: "00:30:00"
+  exercises:
+    files:
+      input_file: "exercises.rds"
+      output_file: "exercises-time-bands.rds"
+    offsets:
+      ucl_offset: "00:45:00"
+      lcl_offset: "00:45:00"
+
+moving_average:
+  weights:
+    files:
+      input_file: "weights.rds"
+      output_file: "weights-moving-average.rds"
+    window_size:
+      before: 1
+      after: 1
+

@@ -1,0 +1,107 @@
+# plot config
+
+input_folder: "../analysis"
+output_folder: "../plots"
+
+files:
+  input:
+    meals: "meals-time-bands.rds"
+    exercises: "exercises-time-bands.rds"
+    weights: "weights-moving-average.rds"
+  output: "plot-diet-log-tracker.html"
+
+logging_settings:
+  console: TRUE
+  log_file: "../logs/plot_{timestamp}.log"
+  sessioninfo_file: "../logs/plot_sessioninfo_{timestamp}.log"
+  threshold: "TRACE"
+  layout_fields:
+    - "time"
+    - "level"
+    - "ns"
+    - "ans"
+    - "topenv"
+    - "fn"
+    - "node"
+    - "arch"
+    - "os_name"
+    - "os_release"
+    - "os_version"
+    - "pid"
+    - "user"
+    - "msg"
+
+# Catpuccin Mocha: https://github.com/catppuccin/catppuccin
+# Main colors: blue, peach, green, red, mauve, maroon, pink, rosewater, teal, lavender
+palette:
+  catpuccin_mocha:
+    canvas:
+      background: "#1e1e1e"
+      text: "#cdd6f4"
+      family: "Fira Sans Condensed"
+      subtext: "#bac2de"
+      panel_grid: "#313244"
+      panel_grid_x: "#bac2de"
+    main:
+      - "#fab387"
+      - "#89b4fa"
+      - "#a6e3a1"
+      - "#f38ba8"
+      - "#f5e0dc"
+      - "#cba6f7"
+      - "#eba0ac"
+      - "#94e2d5"
+      - "#b4befe"
+      - "#f5c2e7"
+
+theme:
+  plot.title:
+    element_text:
+      family: "{ family }"
+      size: 20
+      color: "{ text }"
+  plot.subtitle:
+    element_text:
+      family: "{ family }"
+      size: 16
+      color: "{ subtext }"
+  plot.background:
+    element_rect:
+      fill:  "{ background }"
+  panel.background:
+    element_blank:
+  panel.grid.major:
+    element_line:
+      color: "{ panel_grid }"
+      linewidth:  0.2
+  panel.grid.minor:
+    element_line:
+      color: "{ panel_grid }"
+      linewidth: 0.2
+  panel.grid.major.x:
+    element_line:
+      color: "{ panel_grid_x }"
+      linewidth: 0.2
+  panel.grid.minor.x:
+      element_line:
+      color: "{ panel_grid_x }"
+      linewidth: 0.2
+  axis.ticks:
+    element_blank:
+  axis.text:
+    element_text:
+      color: "{ text }"
+  axis.title:
+    element_text:
+      color: "{ text }"
+      face: "bold"
+  legend.background:
+    element_blank:
+  legend.text:
+    element_text:
+      color: "{ text }"
+  legend.title:
+    element_text:
+      color: "{ text }"
+  legend.key:
+    element_blank:

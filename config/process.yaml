@@ -1,0 +1,84 @@
+# process config
+
+input_files:
+  - "../data/raw/diet-log-part-1.csv"
+  - "../data/raw/diet-log-part-2.csv"
+output_folder: "../data/processed/"
+
+logging_settings:
+  console: TRUE
+  log_file: "../logs/process_{timestamp}.log"
+  sessioninfo_file: "../logs/process_sessioninfo_{timestamp}.log"
+  threshold: "TRACE"
+  layout_fields:
+    - "time"
+    - "level"
+    - "ns"
+    - "ans"
+    - "topenv"
+    - "fn"
+    - "node"
+    - "arch"
+    - "os_name"
+    - "os_release"
+    - "os_version"
+    - "pid"
+    - "user"
+    - "msg"
+
+activities_params:
+  meals:
+    output_file: "meals.rds"
+    activity_type: "meal"
+    separate_regex:
+      - "type=.*"
+      - ";"
+      - "description=.*"
+    col_types:
+      type: "factor"
+    mutations:
+      - name: "common_type"
+        source: "type"
+        transformation: "multi_str_replace_all"
+        additional_args:
+          pattern:
+            - "Afternoon Drink"
+            - "Afternoon Snack"
+            - "Breakfast"
+            - "Dinner"
+            - "Evening Drink"
+            - "Evening Snack"
+            - "Lunch"
+            - "Morning Drink"
+            - "Morning Snack"
+          replacement:
+            - "snacks_afternoon"
+            - "snacks_afternoon"
+            - "breakfast"
+            - "dinner"
+            - "snacks_evening"
+            - "snacks_evening"
+            - "lunch"
+            - "snacks_morning"
+            - "snacks_morning"
+      - name: "common_type"
+        source: "common_type"
+        transformation: "as.factor"
+  exercises:
+    output_file: "exercises.rds"
+    activity_type: "exercise"
+    separate_regex:
+      - "duration_mins=\\d+"
+      - ".*;"
+      - "type=.*"
+      - ";.*\\s+"
+      - "calories_burned=\\d+"
+      - ".*"
+    col_types:
+      type: "factor"
+  weights:
+    output_file: "weights.rds"
+    activity_type: "weight"
+    separate_regex:
+      - "weight_lbs=\\d+(?:.\\d+)"
+      - ".*"
